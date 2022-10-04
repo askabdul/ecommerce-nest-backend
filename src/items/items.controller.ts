@@ -21,7 +21,7 @@ export class ItemsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return `one item with id ${id}`;
+    return this.itemsService.findOne(id);
   }
 
   @Post()
