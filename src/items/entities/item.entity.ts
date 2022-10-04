@@ -20,6 +20,6 @@ export class Item {
   @Column()
   status: string;
 
-  @Column('json', { nullable: true })
+  @Column('simple-array', { nullable: true })
   images: string[];
 }
