@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Cart } from '../dto/create-cart.dto';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Cart } from './cart.entity';
 
 @Entity()
 export class User {
@@ -15,6 +15,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column('json', { nullable: true })
+  @OneToMany(() => Cart, (cart) => cart.user)
   carts: Cart[];
 }
