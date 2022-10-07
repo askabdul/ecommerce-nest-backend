@@ -1,16 +1,16 @@
-import { IsEmail, IsObject, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsObject, IsString } from 'class-validator';
 import { Cart } from './create-cart.dto';
 
 export class CreateUserDto {
   @IsString()
-  name: string;
+  readonly name: string;
 
   @IsEmail()
-  email: string;
+  readonly email: string;
 
-  @IsString()
+  @IsNotEmpty()
   password: string;
 
   @IsObject({ each: true })
-  carts: Cart[];
+  readonly carts: Cart[];
 }

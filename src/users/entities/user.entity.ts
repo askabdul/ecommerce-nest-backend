@@ -15,6 +15,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Cart, (cart) => cart.user)
+  @OneToMany(() => Cart, (cart) => cart.user, { cascade: true })
   carts: Cart[];
 }
