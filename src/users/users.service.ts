@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -11,8 +16,15 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  createUser(createUserDto: CreateUserDto): Promise<User> {
-    const user = this.userRepository.create(createUserDto);
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    let user: User = await this.userRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+
+    if (user) {
+      throw new HttpException('Conflict', HttpStatus.CONFLICT);
+    }
+    user = this.userRepository.create(createUserDto);
     return this.userRepository.save(user);
   }
 

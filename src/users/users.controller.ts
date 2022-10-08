@@ -11,7 +11,7 @@ export class UsersController {
   async createUser(@Body() createUserDto: CreateUserDto) {
     const password = await bcrypt.hash(createUserDto.password, 10);
     createUserDto.password = password;
-    return this.usersService.createUser(createUserDto);
+    return await this.usersService.createUser(createUserDto);
   }
 
   @Get(':id')
