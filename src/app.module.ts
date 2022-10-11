@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { ItemsModule } from './items/items.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -21,8 +23,9 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    JwtModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}

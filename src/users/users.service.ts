@@ -20,7 +20,6 @@ export class UsersService {
     let user: User = await this.userRepository.findOne({
       where: { email: createUserDto.email },
     });
-
     if (user) {
       throw new HttpException('Conflict', HttpStatus.CONFLICT);
     }
@@ -28,23 +27,25 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async findOne(id: string): Promise<User> {
-    const user = await this.userRepository.findOneBy({ id: +id });
+  findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
 
+  async findOne(condition: object): Promise<User> {
+    const user = await this.userRepository.findOneBy(condition);
     if (!user) {
-      throw new NotFoundException(`User #${id} not found`);
+      throw new NotFoundException(`User not found`);
     }
-
     return user;
   }
 
-  async findUser(email: string) {
-    const user = await this.userRepository.findOneBy({ email: email });
-
+  async findUser(email: string): Promise<User> {
+    const user = await this.userRepository.findOneBy({
+      email,
+    });
     if (!user) {
-      throw new NotFoundException(`User #${email} not found`);
+      throw new NotFoundException(`User with email ${email} not found`);
     }
-
     return user;
   }
 }

@@ -14,8 +14,18 @@ export class UsersController {
     return await this.usersService.createUser(createUserDto);
   }
 
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  findOne(@Param('id') id: object) {
+    return this.usersService.findOne({ id });
+  }
+
+  @Post('userByEmail')
+  findUser(@Body('email') email: string) {
+    return this.usersService.findUser(email);
   }
 }

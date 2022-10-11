@@ -2,15 +2,17 @@ import { IsEmail, IsNotEmpty, IsObject, IsString } from 'class-validator';
 import { Cart } from './create-cart.dto';
 
 export class CreateUserDto {
+  @IsNotEmpty()
   @IsString()
-  readonly name: string;
+  name: string;
 
+  @IsNotEmpty()
   @IsEmail()
-  readonly email: string;
+  email: string;
 
   @IsNotEmpty()
   password: string;
 
   @IsObject({ each: true })
-  readonly carts: Cart[];
+  carts: Cart[];
 }

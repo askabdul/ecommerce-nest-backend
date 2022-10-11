@@ -25,6 +25,7 @@ export class ItemsService {
   ) {}
 
   findAll() {
+    console.log('fetching all');
     return this.itemRepository.find();
   }
 
@@ -58,5 +59,23 @@ export class ItemsService {
     const item = await this.findOne(id);
 
     return this.itemRepository.remove(item);
+  }
+
+  async paginate(page = 1): Promise<any> {
+    const take = 10;
+
+    const [items, total] = await this.itemRepository.findAndCount({
+      take,
+      skip: (page - 1) * take,
+    });
+
+    return {
+      data: items,
+      meta: {
+        total,
+        page,
+        last_page: Math.ceil(total / take),
+      },
+    };
   }
 }

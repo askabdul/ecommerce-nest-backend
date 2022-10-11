@@ -1,26 +1,34 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
   Param,
   Patch,
   Post,
+  Query,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { AuthGuard } from '../auth/auth.guard';
+import { Item } from './entities/item.entity';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(AuthGuard)
 @Controller('items')
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
   @Get()
-  findAll() {
-    return this.itemsService.findAll();
+  findAll(@Query('page') page = 1): Promise<Item[]> {
+    return this.itemsService.paginate(page);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Item> {
     return this.itemsService.findOne(id);
   }
 
